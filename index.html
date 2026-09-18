@@ -1,580 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Apeksha Gupta — AI Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --red: #E50914;
-    --black: #0b0b0b;
-    --surface: #141414;
-    --card: #181818;
-    --border: #2a2a2a;
-    --text: #e5e5e5;
-    --muted: #a3a3a3;
-    --green: #46d369;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* ── NAVBAR ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 18px 52px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background 0.4s ease;
-  }
-  nav.scrolled { background: var(--black); }
-  nav::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
-    z-index: -1;
-    opacity: 1;
-    transition: opacity 0.4s;
-  }
-  nav.scrolled::after { opacity: 0; }
-
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    letter-spacing: 2px;
-    color: var(--red);
-    text-decoration: none;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-  }
-  .nav-links a {
-    color: #ccc;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: #fff; }
-
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .nav-avatar {
-    width: 34px; height: 34px;
-    border-radius: 4px;
-    background: var(--red);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 14px;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  /* ── HERO ── */
-  #home {
-    position: relative;
-    height: 100vh;
-    min-height: 600px;
-    display: flex;
-    align-items: flex-end;
-    padding: 0 52px 80px;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 80% 20%, #2d1b69 0%, transparent 55%),
-      radial-gradient(ellipse at 15% 70%, #0d1b4a 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, #1a0a2e 0%, transparent 70%),
-      #0b0b0b;
-    z-index: 0;
-  }
-
-  .hero-noise {
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .hero-bottom-fade {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 280px;
-    background: linear-gradient(to top, var(--black) 0%, transparent 100%);
-    z-index: 2;
-  }
-
-  .hero-side-fade {
-    position: absolute;
-    top: 0; left: 0;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(11,11,11,0.85) 0%, transparent 100%);
-    z-index: 2;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 3;
-    max-width: 680px;
-  }
-
-  .hero-eyebrow {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(56px, 9vw, 96px);
-    letter-spacing: 4px;
-    line-height: 0.95;
-    color: #fff;
-    margin-bottom: 16px;
-  }
-
-  .hero-title span { color: var(--red); }
-
-  .hero-desc {
-    font-size: 17px;
-    color: #d4d4d4;
-    line-height: 1.6;
-    max-width: 520px;
-    margin-bottom: 20px;
-    font-weight: 300;
-  }
-
-  .hero-meta {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 28px;
-    font-size: 13px;
-    flex-wrap: wrap;
-  }
-
-  .hero-match { color: var(--green); font-weight: 600; }
-  .hero-year { color: var(--muted); }
-  .hero-badge {
-    border: 1px solid var(--muted);
-    color: var(--muted);
-    padding: 2px 7px;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-  }
-
-  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-
-  .btn-play {
-    display: flex; align-items: center; gap: 8px;
-    background: #fff;
-    color: #000;
-    border: none;
-    padding: 11px 28px;
-    font-size: 15px;
-    font-weight: 700;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .btn-play:hover { background: #e6e6e6; }
-
-  .btn-info {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(109,109,110,0.5);
-    color: #fff;
-    border: none;
-    padding: 11px 24px;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    backdrop-filter: blur(4px);
-    transition: background 0.2s;
-  }
-  .btn-info:hover { background: rgba(109,109,110,0.8); }
-
-  /* ── ROWS ── */
-  .rows-container {
-    position: relative;
-    z-index: 10;
-    margin-top: -60px;
-    padding-bottom: 60px;
-  }
-
-  .row { margin-bottom: 40px; padding: 0 52px; }
-
-  .row-title {
-    font-size: 17px;
-    font-weight: 600;
-    color: #e5e5e5;
-    margin-bottom: 14px;
-    letter-spacing: 0.3px;
-    cursor: default;
-    transition: color 0.2s;
-  }
-  .row-title:hover { color: #fff; }
-
-  .row-scroll-wrap {
-    position: relative;
-  }
-
-  /* Extra vertical space so hover panels aren't clipped top/bottom */
-  .row-scroll-clip {
-    overflow: hidden;
-    margin: -80px 0;
-    padding: 80px 0;
-  }
-
-  .row-scroll {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    padding: 20px 0 24px;
-  }
-  .row-scroll::-webkit-scrollbar { display: none; }
-
-  .row-arrow {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 52px;
-    background: rgba(11,11,11,0.7);
-    border: none;
-    color: #fff;
-    font-size: 22px;
-    cursor: pointer;
-    z-index: 20;
-    opacity: 0;
-    transition: opacity 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .row-arrow-left { left: -52px; border-radius: 4px 0 0 4px; }
-  .row-arrow-right { right: -52px; border-radius: 0 4px 4px 0; }
-  .row-scroll-wrap:hover .row-arrow { opacity: 1; }
-  .row-arrow:hover { background: rgba(40,40,40,0.9); }
-
-  /* ── CARDS ── */
-  .card {
-    flex-shrink: 0;
-    width: 220px;
-    border-radius: 4px;
-    overflow: visible;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.25s ease, z-index 0s 0.25s;
-    z-index: 1;
-  }
-
-  .card:hover {
-    transform: scale(1.0);
-    z-index: 50;
-    transition: transform 0.25s ease, z-index 0s 0s;
-  }
-
-  .card-thumb {
-    width: 100%;
-    height: 124px;
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .card-thumb img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: opacity 0.3s;
-  }
-
-  .card-thumb-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
-  }
-
-  .card-thumb-label {
-    position: absolute;
-    bottom: 7px; left: 8px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.9);
-    text-transform: uppercase;
-  }
-
-  /* Hover panel — hidden in DOM, shown via JS portal on body */
-  .card-hover { display: none; }
-
-  #card-hover-portal {
-    position: fixed;
-    width: 280px;
-    background: var(--card);
-    border-radius: 6px;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.9);
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.93);
-    transition: opacity 0.18s ease, transform 0.18s ease;
-    z-index: 9999;
-    overflow: hidden;
-  }
-  #card-hover-portal.visible {
-    opacity: 1;
-    pointer-events: all;
-    transform: scale(1.06);
-  }
-
-  .card-hover-thumb {
-    width: 100%;
-    height: 140px;
-    overflow: hidden;
-    position: relative;
-  }
-  .card-hover-thumb img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-  .card-hover-thumb-fade {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 60px;
-    background: linear-gradient(to top, var(--card), transparent);
-  }
-
-  .card-hover-body { padding: 12px 14px 14px; }
-
-  .card-hover-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
-  .icon-btn {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    text-decoration: none;
-    font-size: 14px;
-  }
-
-  .icon-btn-play {
-    background: #fff;
-    border: none;
-    color: #000;
-    font-size: 16px;
-  }
-  .icon-btn-play:hover { background: #e6e6e6; }
-
-  .icon-btn-outline {
-    background: transparent;
-    border: 2px solid #555;
-    color: #fff;
-    font-size: 13px;
-  }
-  .icon-btn-outline:hover { border-color: #fff; }
-
-  .icon-btn-ml { margin-left: auto; }
-
-  .card-hover-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 6px;
-  }
-
-  .card-hover-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 8px;
-  }
-
-  .tag {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--green);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .tag::before { content: '• '; }
-  .tag:first-child::before { content: ''; }
-
-  .card-hover-desc {
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  /* Skill cards (no hover panel, different style) */
-  .skill-card {
-    flex-shrink: 0;
-    width: 160px;
-    height: 90px;
-    border-radius: 4px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: default;
-    transition: background 0.2s, border-color 0.2s;
-    padding: 12px;
-    text-align: center;
-  }
-  .skill-card:hover { background: #222; border-color: #444; }
-
-  .skill-card-icon { font-size: 22px; }
-  .skill-card-name { font-size: 12px; font-weight: 600; color: #e5e5e5; }
-  .skill-card-level { font-size: 10px; color: var(--muted); }
-
-  /* ── CONTACT ── */
-  #contact {
-    padding: 80px 52px;
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
-
-  .contact-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    letter-spacing: 2px;
-    color: #fff;
-    margin-bottom: 16px;
-  }
-
-  .contact-desc {
-    font-size: 15px;
-    color: var(--muted);
-    max-width: 480px;
-    margin: 0 auto 36px;
-    line-height: 1.7;
-    font-weight: 300;
-  }
-
-  .contact-btns {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .contact-btn-primary {
-    background: var(--red);
-    color: #fff;
-    border: none;
-    padding: 13px 36px;
-    font-size: 15px;
-    font-weight: 700;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.2s;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .contact-btn-primary:hover { background: #c40812; }
-
-  .contact-btn-ghost {
-    background: transparent;
-    color: #e5e5e5;
-    border: 1px solid #555;
-    padding: 13px 28px;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color 0.2s, background 0.2s;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .contact-btn-ghost:hover { border-color: #e5e5e5; background: rgba(255,255,255,0.05); }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 36px 52px;
-    border-top: 1px solid var(--border);
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-  }
-
-  .footer-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 13px;
-    transition: color 0.2s;
-  }
-  .footer-links a:hover { color: var(--text); }
-
-  .footer-copy {
-    font-size: 12px;
-    color: #555;
-  }
-
-  /* ── SVG ICONS ── */
-  .svg-icon { display: inline-block; vertical-align: middle; }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--black); }
-  ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #555; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    nav { padding: 16px 20px; }
-    .nav-links { display: none; }
-    #home { padding: 0 20px 60px; }
-    .row { padding: 0 20px; }
-    .row-arrow-left { left: -20px; }
-    .row-arrow-right { right: -20px; }
-    #contact { padding: 60px 20px; }
-    footer { padding: 28px 20px; }
-  }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Apeksha Gupta</title>
+<meta name="description" content="Apeksha Gupta is a Software Developer at Amdocs in Gurugram who builds agentic AI with LangGraph and RAG.">
+<meta name="theme-color" content="#420A22">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="canonical" href="https://apekshag-28.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Apeksha Gupta">
+<meta property="og:title" content="Apeksha Gupta">
+<meta property="og:description" content="Apeksha Gupta is a Software Developer at Amdocs in Gurugram who builds agentic AI with LangGraph and RAG.">
+<meta property="og:url" content="https://apekshag-28.github.io/">
+<meta property="og:image" content="https://apekshag-28.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Illustrated Apeksha under a crimson sky with her name above">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Apeksha Gupta">
+<meta name="twitter:description" content="Apeksha Gupta is a Software Developer at Amdocs in Gurugram who builds agentic AI with LangGraph and RAG.">
+<meta name="twitter:image" content="https://apekshag-28.github.io/og.png">
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -582,525 +29,926 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "xb2jp9gli0");
 </script>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Gochi+Hand&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --sky-0:#420A22; --sky-1:#861A39; --sky-2:#C9384B; --sky-3:#EE8567;
+  --chalk:#FBEFE3; --chalk-soft:rgba(251,239,227,.82);
+  --void:#000000; --ink:#ECE6DE; --ink-dim:#9A928B; --rule:#2A2423; --panel:#0B0909;
+  --amber:#FFC266; --crimson:#F0596A;
+  --gutter:max(16px, 5vw);
+  --f-display:"Dela Gothic One","Arial Black",Impact,sans-serif;
+  --f-hand:"Gochi Hand","Segoe Print","Comic Sans MS",cursive;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+html{background:var(--void)}
+body{background:var(--void);color:var(--ink);font:16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+/* ---------- intro ---------- */
+.intro{position:relative;height:300vh;height:300svh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate;
+  background:
+    radial-gradient(55% 42% at 50% 86%, rgba(255,194,102,.42), transparent 70%),
+    linear-gradient(180deg,var(--sky-0) 0%,var(--sky-1) 36%,var(--sky-2) 70%,var(--sky-3) 100%)}
+.lights{position:absolute;left:0;right:0;top:0;height:70px;z-index:1;pointer-events:none}
+.lights svg{position:absolute;inset:0;width:100%;height:100%}
+.bulb{position:absolute;width:7px;height:9px;margin-left:-3.5px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  background:#FFE7B0;box-shadow:0 0 8px 2px rgba(255,194,102,.85),0 0 22px 6px rgba(255,194,102,.22);
+  animation:twinkle 3.2s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.4}}
+.doodles{position:absolute;inset:0;z-index:1;pointer-events:none}
+.doodle{position:absolute;color:var(--chalk);opacity:.85;animation:twinkle 4.2s ease-in-out infinite}
+.doodle.dot{border-radius:50%;background:var(--chalk)}
+.name{position:absolute;z-index:1;left:0;right:0;top:clamp(44px,6vh,80px);margin:0;text-align:center;
+  font-family:var(--f-display);font-weight:400;font-size:min(12vw,21vh);line-height:.9;letter-spacing:.01em;
+  color:var(--chalk);white-space:nowrap}
+.sub{position:absolute;z-index:3;left:var(--gutter);top:44vh;max-width:17.5rem;display:grid;gap:.55rem}
+.surname{font-family:var(--f-display);font-size:clamp(1.5rem,2.8vw,2.3rem);line-height:1;color:var(--chalk)}
+.role{font:500 .76rem/1.4 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--chalk)}
+.sub p{margin:0;color:var(--chalk-soft);font-size:.98rem;line-height:1.5;text-wrap:pretty}
+.hint{position:absolute;z-index:3;right:var(--gutter);top:40vh;display:grid;justify-items:start;gap:0;
+  font-family:var(--f-hand);font-size:1.6rem;line-height:1.05;color:var(--chalk);transform:rotate(-5deg)}
+.hint svg{width:120px;height:90px;margin-left:-30px}
+.hint .mob{display:none}
+#heroChar{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible;animation:breathe 4.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:translateY(-3px)}}
+.blackout{position:absolute;inset:0;background:#000;opacity:0;z-index:5;pointer-events:none}
+.skip{position:absolute;z-index:6;top:calc(16px + env(safe-area-inset-top,0px));right:var(--gutter);
+  font:500 .78rem var(--f-mono);letter-spacing:.04em;color:var(--chalk);background:rgba(30,4,14,.45);
+  border:1px solid rgba(251,239,227,.5);border-radius:99px;padding:.45rem .95rem;cursor:pointer;backdrop-filter:blur(4px)}
+.skip:hover{background:rgba(30,4,14,.7)}
+.eye{transform-box:fill-box;transform-origin:50% 45%;transform:scaleY(var(--eye-s,1));transition:transform 70ms ease,opacity .12s}
+svg.blink .eye{transform:scaleY(.1)}
+
+/* ---------- inside (the void) ---------- */
+.void{position:relative;background:var(--void);padding-block:clamp(56px,11vh,130px);overflow-x:clip}
+.wrap{max-width:1080px;margin-inline:auto;padding-inline:var(--gutter)}
+.term{font:clamp(.8rem,1.5vw,.95rem)/1.8 var(--f-mono);color:var(--ink);display:grid;gap:0}
+.term .cmd{margin-bottom:.4rem}
+.term .prompt{color:var(--amber)}
+.term .kv{display:grid;grid-template-columns:13ch 1fr;gap:1ch}
+.term .k{color:var(--ink-dim)}
+.term .k::before{content:"> ";color:#4d4643}
+.cursor{display:inline-block;width:.55em;height:1.05em;background:var(--amber);vertical-align:-.18em;margin-left:.3ch;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.tagline{font-family:var(--f-display);font-weight:400;font-size:clamp(2rem,5.4vw,4.4rem);line-height:1.04;margin:1.2em 0 0;max-width:15ch;text-wrap:balance}
+.tagline em{font-style:normal;color:var(--amber)}
+
+.section-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:.75rem 2rem;margin-bottom:1.75rem}
+.eyebrow{display:block;font:500 .72rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.5rem);line-height:1.12;margin:.35rem 0 0;text-wrap:balance}
+.textlink{font:500 .85rem var(--f-mono);color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(255,194,102,.35);padding-bottom:2px}
+.textlink:hover{border-color:var(--amber)}
+
+.graph{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.node{position:relative;border:1px solid var(--rule);border-radius:10px;padding:14px 14px 16px;background:var(--panel);transition:border-color .25s,box-shadow .25s}
+.node::after{content:"";position:absolute;top:50%;right:-17px;width:17px;height:1px;background:#3a3331}
+.node:last-child::after{display:none}
+.node .n{font:500 .7rem var(--f-mono);color:var(--ink-dim)}
+.node .t{display:block;font:500 .9rem/1.3 var(--f-mono);color:var(--ink);margin-top:.35rem;overflow-wrap:anywhere}
+.node .s{display:block;font:.72rem/1.4 var(--f-mono);color:var(--ink-dim);margin-top:.4rem}
+.node[data-state="run"]{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber),0 0 28px -8px var(--amber)}
+.node[data-state="done"]{border-color:#5f5752}
+.node[data-state="done"] .n::after{content:"  ✓";color:var(--ink)}
+.node[data-state="retry"]{border-color:var(--crimson);box-shadow:0 0 0 1px var(--crimson)}
+.node[data-state="retry"] .n::after{content:"  ✕ error";color:var(--crimson)}
+.runbar{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;margin-top:22px}
+.run{font-weight:600;font-size:.92rem;color:#1a0d02;background:var(--amber);border:0;border-radius:8px;padding:.7rem 1.15rem;cursor:pointer}
+.run:disabled{opacity:.55;cursor:default}
+.note{font-size:.82rem;color:var(--ink-dim)}
+.log{margin-top:18px;border-top:1px solid var(--rule);padding-top:14px;font:.82rem/1.75 var(--f-mono);color:var(--ink-dim);min-height:8.8em;white-space:pre-wrap;overflow-wrap:anywhere}
+.log b{color:var(--amber);font-weight:500}
+
+.feature{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4vw,48px)}
+.proj{border-top:2px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:.7rem}
+.proj h3{font-family:var(--f-display);font-weight:400;font-size:clamp(1.35rem,2.4vw,1.85rem);margin:0;line-height:1.15}
+.proj p{margin:0;max-width:48ch}
+.stack{display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;list-style:none}
+.stack li{font:.72rem var(--f-mono);color:var(--ink-dim);border:1px solid var(--rule);border-radius:99px;padding:.15rem .6rem}
+.proj .textlink{align-self:flex-start;margin-top:.3rem;overflow-wrap:anywhere}
+.others{margin-top:clamp(40px,6vw,68px);border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:minmax(9rem,13rem) 1fr auto;gap:.3rem 1.5rem;padding:15px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.row .nm{font-weight:600}
+.row .ds{color:var(--ink-dim);max-width:62ch}
+.chips{display:flex;gap:6px;justify-self:end}
+.chip{justify-self:end;white-space:nowrap;font:500 .68rem var(--f-mono);text-transform:uppercase;letter-spacing:.08em;padding:.18rem .55rem;border-radius:4px;border:1px solid;text-decoration:none}
+.chip.link{color:var(--amber);border-color:rgba(255,194,102,.45)}
+.chip.link:hover{background:rgba(255,194,102,.1)}
+.chip.wip{color:var(--crimson);border-color:rgba(240,89,106,.45)}
+.chip.soon{color:var(--ink-dim);border-color:#3a3331}
+
+.outro .beyond{font-size:clamp(1.05rem,1.8vw,1.25rem);max-width:46ch;margin:.6rem 0 0;color:var(--ink)}
+.outro .beyond a{color:var(--amber)}
+.big{font-size:clamp(2.2rem,7vw,5.4rem);margin-top:clamp(40px,7vw,80px);max-width:14ch}
+.mail{display:inline-block;margin-top:22px;font:500 clamp(1.05rem,2.6vw,1.6rem) var(--f-mono);color:var(--amber);text-decoration:none;border-bottom:2px solid rgba(255,194,102,.4);padding-bottom:3px;overflow-wrap:anywhere}
+.mail:hover{border-color:var(--amber)}
+.links{display:flex;flex-wrap:wrap;gap:10px 26px;margin:26px 0 0;padding:0;list-style:none}
+.links a{font:500 .95rem var(--f-mono);text-decoration:none;border-bottom:1px solid #3a3331;padding-bottom:2px}
+.links a:hover{border-color:var(--amber);color:var(--amber)}
+.fine{margin-top:48px;font:.72rem/1.6 var(--f-mono);color:var(--ink-dim)}
+
+/* ---------- mini guide ---------- */
+.guide{position:fixed;z-index:20;right:max(12px,calc(var(--gutter) - 8px));bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:flex-end;gap:8px;opacity:0;transform:translateY(24px) scale(.9);transform-origin:100% 100%;
+  transition:opacity .35s,transform .35s;pointer-events:none}
+.guide.on{opacity:1;transform:none;pointer-events:auto}
+.face{width:78px;height:78px;flex:none;border-radius:50%;padding:0;border:2px solid var(--chalk);overflow:hidden;cursor:pointer;
+  background:linear-gradient(180deg,var(--sky-1),var(--sky-3));box-shadow:0 8px 26px rgba(0,0,0,.6)}
+.face svg{width:100%;height:100%;display:block}
+.bubble{max-width:min(14rem,58vw);margin-bottom:40px;background:var(--chalk);color:#2A1016;font:1.12rem/1.2 var(--f-hand);
+  padding:.5rem .8rem;border-radius:14px 14px 3px 14px;transition:opacity .4s,transform .4s}
+.bubble.hide{opacity:0;transform:translateY(6px)}
+
+@media (max-width:1000px) and (min-width:761px){
+  .graph{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .node:nth-child(3n)::after{display:none}
+}
+/* ---------- character moods ---------- */
+svg.slow .eye{transition-duration:.45s}
+.blush{opacity:var(--blush,.32);transition:opacity .35s}
+.alt{opacity:0;transition:opacity .12s}
+svg.happy .eye,svg.dizzy .eye{opacity:0}
+svg.happy .alt.happy,svg.dizzy .alt.dizzy,svg.worried .alt.sweat{opacity:1}
+.spin{transform-box:fill-box;transform-origin:center}
+svg.dizzy .spin{animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.specs{transition:transform .22s ease}
+svg.push .specs{transform:translateY(-3.5px)}
+.glint{opacity:0}
+svg.push .glint{animation:glint .65s ease-out}
+@keyframes glint{0%{opacity:0;transform:translateX(0)}25%{opacity:.85}100%{opacity:0;transform:translateX(125px)}}
+.catears{opacity:0;transform:translateY(16px);transition:opacity .25s,transform .4s cubic-bezier(.3,1.7,.5,1)}
+svg.cat .catears{opacity:1;transform:none}
+#heroChar .hits>*{cursor:pointer}
+.pop{position:fixed;z-index:30;pointer-events:none;font:1.5rem/1 var(--f-hand);color:var(--chalk);white-space:nowrap;
+  text-shadow:0 1px 0 rgba(40,6,18,.7),0 0 14px rgba(40,6,18,.55);translate:-50% -100%;animation:pop 1.2s ease-out forwards}
+.pop.z{animation:zz 2.6s ease-out forwards}
+@keyframes pop{0%{opacity:0;transform:translateY(6px) scale(.8)}15%{opacity:1;transform:none}70%{opacity:1}100%{opacity:0;transform:translateY(-26px)}}
+@keyframes zz{0%{opacity:0;transform:translate(0,0) rotate(-8deg)}20%{opacity:.95}100%{opacity:0;transform:translate(34px,-70px) rotate(8deg)}}
+@keyframes fadeout{0%,70%{opacity:1}100%{opacity:0}}
+.face.hop{animation:hop .45s ease-out 2}
+@keyframes hop{40%{transform:translateY(-10px)}}
+.egg{font:inherit;color:var(--amber);background:none;border:0;border-bottom:1px dashed rgba(255,194,102,.5);padding:0;cursor:pointer}
+
+@media (max-width:760px){
+  .guide{flex-direction:column;align-items:flex-end;gap:6px}
+  .bubble{margin-bottom:0;font-size:1rem;max-width:56vw;padding:.4rem .7rem}
+  .graph{grid-template-columns:1fr;gap:14px}
+  .node::after{top:auto;bottom:-15px;right:auto;left:26px;width:1px;height:14px}
+  .feature{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr auto}
+  .row .nm{grid-column:1;grid-row:1}
+  .row .chip,.row .chips{grid-column:2;grid-row:1}
+  .row .ds{grid-column:1/-1;grid-row:2}
+}
+@media (max-width:700px), (max-aspect-ratio:4/5){
+  .name{font-size:12vw;top:clamp(56px,9vh,96px)}
+  .sub{left:var(--gutter);right:var(--gutter);top:calc(clamp(56px,9vh,96px) + 14vw);max-width:none;justify-items:center;text-align:center;gap:.35rem}
+  .sub p{max-width:30ch}
+  .hint{right:auto;left:50%;top:auto;bottom:18px;transform:translateX(-50%);font-size:1.2rem;
+    background:rgba(20,4,12,.55);padding:.3rem .85rem;border-radius:99px;white-space:nowrap}
+  .hint svg,.hint .desk{display:none}
+  .doodle.hi{display:none}
+  .hint .mob{display:inline}
+}
+@media (prefers-reduced-motion:reduce){
+  .bulb,.doodle,.cursor,#heroChar{animation:none}
+  .guide,.eye,.bubble{transition:none}
+  .pop,.pop.z{animation:fadeout 1.6s forwards}
+  .face.hop,svg.dizzy .spin,svg.push .glint{animation:none}
+}
+</style>
 </head>
 <body>
-
-<!-- NAVBAR -->
-<nav id="navbar">
-  <a href="#home" class="nav-logo">APEKSHA GUPTA</a>
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#hobbies">Hobbies</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-right">
-    <div class="nav-avatar">A</div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-noise"></div>
-  <div class="hero-side-fade"></div>
-  <div class="hero-bottom-fade"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">AI Engineer &amp; GenAI Builder</div>
-    <h1 class="hero-title">APEKSHA<br><span>GUPTA</span></h1>
-    <p class="hero-desc">Building autonomous AI systems that don't just assist — they act. LangGraph agents, RAG pipelines, and production deployments on AWS.</p>
-    <div class="hero-meta">
-      <span class="hero-match">97% Match</span>
-      <span class="hero-year">Gurugram, India</span>
-      <span class="hero-badge">1.5 YRS EXP</span>
-      <span class="hero-badge">AWS CERTIFIED</span>
+<main>
+  <section class="intro" aria-label="Intro">
+    <div class="stage" id="stage">
+      <div class="lights" aria-hidden="true">
+        <svg viewBox="0 0 1000 70" preserveAspectRatio="none"><path d="M0 8Q250 72 500 8Q750 72 1000 8" fill="none" stroke="rgba(25,6,12,.65)" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg>
+      </div>
+      <div class="doodles" id="doodles" aria-hidden="true"></div>
+      <h1 class="name" aria-label="Apeksha Gupta">APEKSHA</h1>
+      <div class="sub" id="sub">
+        <span class="surname" aria-hidden="true">GUPTA</span>
+        <span class="role">Software Developer · Amdocs</span>
+        <p>Builds agentic AI with LangGraph and RAG. Gurugram · AWS Certified.</p>
+      </div>
+      <div class="hint" id="hint" aria-hidden="true">
+        <span class="desk">scroll to<br>step inside</span>
+        <span class="mob">scroll to step inside ↓</span>
+        <svg viewBox="0 0 120 90" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M92 4C104 34 88 66 30 74"/><path d="M42 63L29 74L43 83"/></svg>
+      </div>
+      <svg id="heroChar" viewBox="0 -80 400 600" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Illustration of Apeksha with her chin resting on her hand"></svg>
+      <div class="blackout" id="blackout"></div>
+      <button class="skip" type="button" id="skipBtn">skip intro ↓</button>
     </div>
-    <div class="hero-btns">
-      <a href="#projects" class="btn-play">
-        <svg class="svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-        View Projects
-      </a>
-      <a href="#contact" class="btn-info">
-        <svg class="svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Contact Me
-      </a>
+  </section>
+
+  <section class="void" id="inside" data-guide="you're inside my head now">
+    <div class="wrap">
+      <div class="term" id="term" role="group" aria-label="Profile summary">
+        <div class="cmd"><span class="prompt">apeksha@portfolio:~$</span> <span class="typed">./wake --agent</span></div>
+        <div class="kv"><span class="k">name</span><span class="v typed">Apeksha Gupta</span></div>
+        <div class="kv"><span class="k">role</span><span class="v typed">Software Developer @ Amdocs, Gurugram</span></div>
+        <div class="kv"><span class="k">path</span><span class="v typed">mainframe → AWS migration → agentic AI</span></div>
+        <div class="kv"><span class="k">experience</span><span class="v typed">~2 years</span></div>
+        <div class="kv"><span class="k">certified</span><span class="v typed">AWS Cloud Practitioner</span></div>
+        <div class="kv"><span class="k">toolchain</span><span class="v typed">python · langchain · langgraph · faiss · huggingface · groq · aws · docker</span></div>
+        <div class="kv"><span class="k">status</span><span class="v"><span class="typed">online</span><span class="cursor"></span></span></div>
+      </div>
+      <p class="tagline">I build AI systems that don't just assist — <em>they act.</em></p>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ROWS -->
-<div class="rows-container">
-
-  <!-- FEATURED PROJECTS -->
-  <div class="row" id="projects">
-    <div class="row-title">🔴 Featured Projects <span style="font-size:12px; font-weight:400; color:var(--muted); margin-left:8px;">— hover a card to explore</span></div>
-    <div class="row-scroll-wrap">
-      <button class="row-arrow row-arrow-left" onclick="scrollRow(this, -1)">&#8249;</button>
-      <div class="row-scroll-clip"><div class="row-scroll" id="row-projects">
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80" alt="AI Dev Agent" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">AI Dev Agent</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=80" alt="AI Dev Agent" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-actions">
-                <a href="https://github.com/apekshagupta28/ai-dev-agent" target="_blank" class="icon-btn icon-btn-play">▶</a>
-                <a href="https://github.com/apekshagupta28/ai-dev-agent" target="_blank" class="icon-btn icon-btn-outline">GH</a>
-                <span class="icon-btn icon-btn-outline icon-btn-ml">+</span>
-              </div>
-              <div class="card-hover-title">Autonomous AI Dev Agent</div>
-              <div class="card-hover-tags">
-                <span class="tag">LangGraph</span><span class="tag">Groq</span><span class="tag">LLaMA 3.3</span><span class="tag">Jira API</span><span class="tag">PyGithub</span>
-              </div>
-              <div class="card-hover-desc">Fully autonomous Jira → Code → Self-Correct → GitHub → Close pipeline. No human in the loop.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?auto=format&fit=crop&w=600&q=80" alt="RAG Bot" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">RAG PDF Q&A Bot</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?auto=format&fit=crop&w=600&q=80" alt="RAG Bot" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-actions">
-                <a href="https://github.com/apekshagupta28/QnA-bot--RAG-project" target="_blank" class="icon-btn icon-btn-play">▶</a>
-                <a href="https://github.com/apekshagupta28/QnA-bot--RAG-project" target="_blank" class="icon-btn icon-btn-outline">GH</a>
-                <span class="icon-btn icon-btn-outline icon-btn-ml">+</span>
-              </div>
-              <div class="card-hover-title">RAG PDF Q&amp;A Bot</div>
-              <div class="card-hover-tags">
-                <span class="tag">LangChain</span><span class="tag">FAISS</span><span class="tag">HuggingFace</span><span class="tag">Streamlit</span><span class="tag">AWS EC2</span>
-              </div>
-              <div class="card-hover-desc">Upload any PDF and query it semantically. Deployed live on AWS EC2 with HuggingFace embeddings.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80" alt="Python Automation" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Backend Automation</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80" alt="Python Automation" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-actions">
-                <span class="icon-btn icon-btn-play">▶</span>
-                <a href="https://github.com/apekshagupta28" target="_blank" class="icon-btn icon-btn-outline">GH</a>
-                <span class="icon-btn icon-btn-outline icon-btn-ml">+</span>
-              </div>
-              <div class="card-hover-title">Amdocs Backend Automation</div>
-              <div class="card-hover-tags">
-                <span class="tag">Python</span><span class="tag">AWS Outpost</span><span class="tag">Tomcat</span><span class="tag">Oracle DB</span>
-              </div>
-              <div class="card-hover-desc">Python automation scripts for backend deployment workflows. Contributed to AWS Outpost migration at scale.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Docker CI/CD" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Containerised Deploys</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Docker CI/CD" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-actions">
-                <span class="icon-btn icon-btn-play">▶</span>
-                <a href="https://github.com/apekshagupta28" target="_blank" class="icon-btn icon-btn-outline">GH</a>
-                <span class="icon-btn icon-btn-outline icon-btn-ml">+</span>
-              </div>
-              <div class="card-hover-title">Containerised Deployments</div>
-              <div class="card-hover-tags">
-                <span class="tag">Docker</span><span class="tag">GitHub Actions</span><span class="tag">pytest</span><span class="tag">EC2</span>
-              </div>
-              <div class="card-hover-desc">Dockerised AI apps with automated pytest suites and GitHub-based deployment pipelines.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="AI Shorts Channel" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">CatGPT-4o · YouTube</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="AI Shorts Channel" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-actions">
-                <a href="https://youtube.com/@CatGPT-4o" target="_blank" class="icon-btn icon-btn-play">▶</a>
-                <span class="icon-btn icon-btn-outline">YT</span>
-                <span class="icon-btn icon-btn-outline icon-btn-ml">+</span>
-              </div>
-              <div class="card-hover-title">CatGPT-4o — AI Shorts</div>
-              <div class="card-hover-tags">
-                <span class="tag">Content</span><span class="tag">AI Tools</span><span class="tag">Tech News</span>
-              </div>
-              <div class="card-hover-desc">Faceless AI/Tech Shorts channel. AI Tool of the Day, Tech News in 60s, AI vs Human formats.</div>
-            </div>
-          </div>
-        </div>
-
-      </div></div>
-      <button class="row-arrow row-arrow-right" onclick="scrollRow(this, 1)">&#8250;</button>
+  <section class="void" id="agent" data-guide="press Run! this is my AI Dev Agent">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="eyebrow">Headline project · interactive</span><h2>Watch the AI Dev Agent work a ticket</h2></div>
+        <a class="textlink" href="https://github.com/apekshaG-28/ai-dev-agent" target="_blank" rel="noopener">view the code →</a>
+      </div>
+      <ol class="graph" id="graph">
+        <li class="node" data-id="read_jira"><span class="n">01</span><code class="t">read_jira</code><span class="s">Reads the ticket through the Jira API</span></li>
+        <li class="node" data-id="generate_code"><span class="n">02</span><code class="t">generate_code</code><span class="s">Groq · LLaMA 3.3-70b writes the code</span></li>
+        <li class="node" data-id="execute_code"><span class="n">03</span><code class="t">execute_code</code><span class="s">Compiles to catch errors. Nothing is run.</span></li>
+        <li class="node" data-id="self_correct"><span class="n">04</span><code class="t">self_correct</code><span class="s">Sends code + error back to the model, then returns to 03</span></li>
+        <li class="node" data-id="push_github"><span class="n">05</span><code class="t">push_github</code><span class="s">PyGithub: branch, commit, pull request</span></li>
+        <li class="node" data-id="close_jira"><span class="n">06</span><code class="t">close_jira</code><span class="s">Closes the ticket and comments the PR link</span></li>
+      </ol>
+      <div class="runbar">
+        <button class="run" type="button" id="runBtn">Run the agent</button>
+        <span class="note">Simulated run of the README example. If any node fails, the router ends the run.</span>
+      </div>
+      <div class="log" id="log" aria-live="polite">Waiting for a ticket…</div>
     </div>
-  </div>
+  </section>
 
-  <!-- TECH SKILLS -->
-  <div class="row" id="skills">
-    <div class="row-title">⚡ Technical Arsenal</div>
-    <div class="row-scroll-wrap">
-      <button class="row-arrow row-arrow-left" onclick="scrollRow(this, -1)">&#8249;</button>
-      <div class="row-scroll-clip"><div class="row-scroll">
-        <div class="skill-card"><div class="skill-card-icon">🦜</div><div class="skill-card-name">LangChain</div><div class="skill-card-level">Advanced</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🕸️</div><div class="skill-card-name">LangGraph</div><div class="skill-card-level">Advanced</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🐍</div><div class="skill-card-name">Python</div><div class="skill-card-level">Advanced</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🔍</div><div class="skill-card-name">RAG Pipelines</div><div class="skill-card-level">Advanced</div></div>
-        <div class="skill-card"><div class="skill-card-icon">⚡</div><div class="skill-card-name">Groq · LLaMA</div><div class="skill-card-level">Advanced</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🗃️</div><div class="skill-card-name">FAISS</div><div class="skill-card-level">Proficient</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🤗</div><div class="skill-card-name">HuggingFace</div><div class="skill-card-level">Proficient</div></div>
-        <div class="skill-card"><div class="skill-card-icon">☁️</div><div class="skill-card-name">AWS EC2 · S3</div><div class="skill-card-level">Proficient</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🐳</div><div class="skill-card-name">Docker</div><div class="skill-card-level">Proficient</div></div>
-        <div class="skill-card"><div class="skill-card-icon">📊</div><div class="skill-card-name">Streamlit</div><div class="skill-card-level">Proficient</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🧪</div><div class="skill-card-name">pytest</div><div class="skill-card-level">Proficient</div></div>
-        <div class="skill-card"><div class="skill-card-icon">🐙</div><div class="skill-card-name">GitHub API</div><div class="skill-card-level">Proficient</div></div>
-      </div></div>
-      <button class="row-arrow row-arrow-right" onclick="scrollRow(this, 1)">&#8250;</button>
+  <section class="void" id="work" data-guide="the two big ones are up top">
+    <div class="wrap">
+      <div class="section-head"><div><span class="eyebrow">Projects &amp; websites</span><h2>Things I've built</h2></div></div>
+      <div class="feature">
+        <article class="proj" data-say="this one opens PRs by itself">
+          <span class="eyebrow">Agentic AI</span>
+          <h3>AI Dev Agent</h3>
+          <p>Takes a Jira ticket, writes the code with an LLM, checks and fixes its own output, opens a GitHub pull request, then closes the ticket. Ran end to end on a real ticket.</p>
+          <ul class="stack"><li>LangGraph</li><li>Groq · LLaMA 3.3-70b</li><li>Jira API</li><li>PyGithub</li><li>Streamlit</li></ul>
+          <a class="textlink" href="https://github.com/apekshaG-28/ai-dev-agent" target="_blank" rel="noopener">github.com/apekshaG-28/ai-dev-agent →</a>
+        </article>
+        <article class="proj" data-say="ask it anything about your PDFs">
+          <span class="eyebrow">RAG</span>
+          <h3>Document Q&amp;A Bot</h3>
+          <p>Upload PDFs and ask questions in plain language. Answers come from the documents themselves, found by meaning rather than keywords. Deployed on AWS EC2 with Docker.</p>
+          <ul class="stack"><li>LangChain</li><li>FAISS</li><li>HuggingFace embeddings</li><li>Groq · LLaMA 3.3-70b</li><li>Streamlit</li><li>AWS EC2</li><li>Docker</li></ul>
+          <a class="textlink" href="https://github.com/apekshaG-28/QnA-bot--RAG-project" target="_blank" rel="noopener">github.com/apekshaG-28/QnA-bot--RAG-project →</a>
+        </article>
+      </div>
+      <div class="others">
+        <div class="row" data-say="scroll that one, it's pretty"><span class="nm">Bloom Roastery</span><span class="ds">A cinematic, scroll-driven site for a fictional coffee brand: you fall along a ribbon of water into fresh grounds that swell into a breathing bloom. Plain HTML, CSS and JavaScript, with no framework or build step.</span><span class="chips"><a class="chip link" href="https://apekshag-28.github.io/first-water/" target="_blank" rel="noopener">live site</a><a class="chip link" href="https://github.com/apekshaG-28/first-water" target="_blank" rel="noopener">repo</a></span></div>
+        <div class="row" data-say="my job-hunt HQ"><span class="nm">Waypoint</span><span class="ds">A React job-search dashboard: tracks applications, filters curated openings and refreshes listings with Claude web search.</span><span class="chip soon">private build</span></div>
+        <div class="row" data-say="keeps my uploads on a streak"><span class="nm">CatGPT-4o Tracker</span><span class="ds">Content tracker for my YouTube Shorts channel, with upload streaks, monthly counts and category filters.</span><span class="chip soon">private build</span></div>
+        <div class="row" data-say="still cooking, stay tuned"><span class="nm">crimsonxskies</span><span class="ds">A website with its own backend, built with Claude Code.</span><span class="chip wip">in progress</span></div>
+        <div class="row" data-say="AI news, in shorts"><span class="nm">CatGPT-4o</span><span class="ds">Faceless YouTube Shorts on AI tools, news and comparisons.</span><a class="chip link" href="https://youtube.com/@CatGPT-4o" target="_blank" rel="noopener">channel</a></div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- EXPERIENCE -->
-  <div class="row" id="experience">
-    <div class="row-title">💼 Experience &amp; Certifications</div>
-    <div class="row-scroll-wrap">
-      <button class="row-arrow row-arrow-left" onclick="scrollRow(this, -1)">&#8249;</button>
-      <div class="row-scroll-clip"><div class="row-scroll">
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Amdocs" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Amdocs · 2024–Present</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Amdocs" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">Software Engg. Associate</div>
-              <div class="card-hover-tags"><span class="tag">Amdocs</span><span class="tag">Gurugram</span><span class="tag">1.5 Yrs</span></div>
-              <div class="card-hover-desc">Backend debugging, Python automation, AWS Outpost migration contribution. Deployment via Tomcat, JNDI, Ant on Oracle DB environments.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?auto=format&fit=crop&w=600&q=80" alt="AWS Certification" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Amazon Web Services</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?auto=format&fit=crop&w=600&q=80" alt="AWS Certification" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">AWS Cloud Practitioner</div>
-              <div class="card-hover-tags"><span class="tag">Amazon Web Services</span><span class="tag">Certified</span></div>
-              <div class="card-hover-desc">AWS Certified Cloud Practitioner. Hands-on experience with EC2, S3, and AWS Outpost environments.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80" alt="Chandigarh University" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Chandigarh University · 2020–2024</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80" alt="Chandigarh University" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">B.E. Computer Science</div>
-              <div class="card-hover-tags"><span class="tag">Chandigarh University</span><span class="tag">Big Data Analytics</span></div>
-              <div class="card-hover-desc">Specialization in Big Data Analytics. Foundation in algorithms, data structures, and distributed systems.</div>
-            </div>
-          </div>
-        </div>
-
-      </div></div>
-      <button class="row-arrow row-arrow-right" onclick="scrollRow(this, 1)">&#8250;</button>
+  <section class="void outro" id="contact" data-guide="say hi!">
+    <div class="wrap">
+      <span class="eyebrow">Beyond the code</span>
+      <p class="beyond">I draw anime fan art and paint in acrylics as <a href="https://instagram.com/crimsonxskies" target="_blank" rel="noopener">@crimsonxskies</a>, shoot on a 50mm prime, play ukulele and drums, and I'm learning guitar.</p>
+      <h2 class="big">Let's build something that acts.</h2>
+      <a class="mail" href="mailto:apeksha3128@gmail.com">apeksha3128@gmail.com</a>
+      <ul class="links">
+        <li><a href="https://github.com/apekshaG-28" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/apeksha-gupta-a68a62230/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://youtube.com/@CatGPT-4o" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://instagram.com/crimsonxskies" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+      <p class="fine">© 2026 Apeksha Gupta · psst: type <button class="egg" type="button" id="catBtn">c-a-t</button></p>
     </div>
-  </div>
+  </section>
+</main>
 
-  <!-- HOBBIES / BEYOND THE CODE -->
-  <div class="row" id="hobbies">
-    <div class="row-title">🎨 Beyond the Code</div>
-    <div class="row-scroll-wrap">
-      <button class="row-arrow row-arrow-left" onclick="scrollRow(this, -1)">&#8249;</button>
-      <div class="row-scroll-clip"><div class="row-scroll">
-
-        <a href="https://www.instagram.com/crimsonxskies" target="_blank" style="text-decoration:none;">
-        <div class="card">
-          <div class="card-thumb" style="background: linear-gradient(135deg, #1a0a2e 0%, #2d1b69 50%, #e50914 100%); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:6px;">
-            <div style="font-size:36px;">🎨</div>
-            <div style="font-size:11px; color:#fff; font-weight:700; letter-spacing:1px; text-align:center; padding:0 8px;">MY ORIGINAL ARTWORK</div>
-            <div style="font-size:10px; color:rgba(255,255,255,0.6); letter-spacing:0.5px;">@crimsonxskies</div>
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Fan Art · Digital</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb" style="background: linear-gradient(135deg, #1a0a2e 0%, #2d1b69 50%, #e50914 100%); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
-              <div style="font-size:48px;">🎨</div>
-              <div style="font-size:13px; color:#fff; font-weight:700; text-align:center;">View My Art on Instagram</div>
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">Anime &amp; Fan Art</div>
-              <div class="card-hover-tags"><span class="tag">@crimsonxskies</span><span class="tag">Instagram</span><span class="tag">Demon Slayer</span></div>
-              <div class="card-hover-desc">Anime-style hand-drawn illustrations and fan art. Demon Slayer series gaining early traction. Open for commissions — tap to visit Instagram.</div>
-            </div>
-          </div>
-        </div>
-        </a>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="Digital Illustration" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Illustration</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="Digital Illustration" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">Digital Illustration</div>
-              <div class="card-hover-tags"><span class="tag">Digital Painting</span><span class="tag">Competitions</span></div>
-              <div class="card-hover-desc">Digital paintings and competition entries. Combines technical precision with artistic sensibility.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=600&q=80" alt="Ukulele" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Ukulele</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=600&q=80" alt="Ukulele" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">Ukulele</div>
-              <div class="card-hover-tags"><span class="tag">Strings</span><span class="tag">Self-Taught</span></div>
-              <div class="card-hover-desc">Plays ukulele — proof that learning new systems from scratch is a recurring theme, on screen and off.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=600&q=80" alt="Drums" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Drums</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=600&q=80" alt="Drums" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">Drums</div>
-              <div class="card-hover-tags"><span class="tag">Percussion</span><span class="tag">Rhythm</span></div>
-              <div class="card-hover-desc">Drummer with a sense of timing that carries over to shipping on deadline. Pattern recognition in every beat.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-thumb">
-            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80" alt="Guitar" />
-            <div class="card-thumb-overlay"></div>
-            <div class="card-thumb-label">Guitar</div>
-          </div>
-          <div class="card-hover">
-            <div class="card-hover-thumb">
-              <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80" alt="Guitar" />
-              <div class="card-hover-thumb-fade"></div>
-            </div>
-            <div class="card-hover-body">
-              <div class="card-hover-title">Guitar</div>
-              <div class="card-hover-tags"><span class="tag">Strings</span><span class="tag">Learning</span></div>
-              <div class="card-hover-desc">Currently learning guitar — because why stop at one instrument when you can debug chord progressions too.</div>
-            </div>
-          </div>
-        </div>
-
-      </div></div>
-      <button class="row-arrow row-arrow-right" onclick="scrollRow(this, 1)">&#8250;</button>
-    </div>
-  </div>
-
+<div class="guide" id="guide">
+  <div class="bubble" id="bubble" aria-live="polite">you're inside my head now</div>
+  <button class="face" type="button" id="guideBtn" aria-label="Back to the top" title="take me back out">
+    <svg id="guideChar" viewBox="94 38 212 232" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  </button>
 </div>
 
-<!-- CONTACT -->
-<section id="contact">
-  <h2 class="contact-title">READY TO BUILD SOMETHING?</h2>
-  <p class="contact-desc">Currently open to AI/ML and GenAI Engineer roles. If you have an interesting problem or just want to talk, I'll get back to you.</p>
-  <div class="contact-btns">
-    <a href="mailto:apeksha3128@gmail.com" class="contact-btn-primary">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-      Send Email
-    </a>
-    <a href="https://www.linkedin.com/in/apeksha-gupta-a68a62230/" target="_blank" class="contact-btn-ghost">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      LinkedIn
-    </a>
-    <a href="https://github.com/apekshagupta28" target="_blank" class="contact-btn-ghost">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-      GitHub
-    </a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-links">
-    <a href="mailto:apeksha3128@gmail.com">Email</a>
-    <a href="https://www.linkedin.com/in/apeksha-gupta-a68a62230/" target="_blank">LinkedIn</a>
-    <a href="https://github.com/apekshagupta28" target="_blank">GitHub</a>
-    <a href="https://youtube.com/@CatGPT-4o" target="_blank">YouTube</a>
-  </div>
-  <p class="footer-copy">© 2024 Apeksha Gupta. All rights reserved.</p>
-</footer>
-
 <script>
-  // Navbar scroll
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 10);
-  });
+(function(){
+'use strict';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
+const ss = (a,b,v)=>{const t=clamp((v-a)/(b-a),0,1);return t*t*(3-2*t);};
 
-  // Row scroll arrows
-  function scrollRow(btn, dir) {
-    const wrap = btn.closest('.row-scroll-wrap');
-    const scroll = wrap.querySelector('.row-scroll');
-    scroll.scrollBy({ left: dir * 500, behavior: 'smooth' });
+/* ================= character ================= */
+const C = {skin:'#D49B75', shade:'#B57954', line:'#8A4F36', blush:'#E06E5C', hair:'#211310', hairHi:'#6E4332',
+  navy:'#1F2848', navyD:'#141A33', navyL:'#36426E', gold:'#CDA662', lip:'#7E3A34', brow:'#2A1712'};
+const FACE = 'M134 170C132 214 144 250 166 278C181 296 191 304 200 304C209 304 219 296 234 278C256 250 268 214 266 170C264 124 236 100 200 100C164 100 136 124 134 170Z';
+const BACK = 'M200 64C138 62 96 100 90 162C84 222 80 262 70 312C60 362 64 402 52 440C46 462 50 484 42 520L358 520C350 484 354 462 348 440C336 402 340 362 330 312C320 262 316 222 310 162C304 100 262 66 200 64Z';
+const LOCK = 'M200 94C168 96 138 114 126 150C116 182 120 214 114 246C108 280 98 320 100 370C102 410 92 440 76 468C104 462 124 430 130 400C136 370 134 330 138 300C142 270 140 238 142 210C144 180 146 156 156 138C168 118 184 110 200 106Z';
+const BODY = 'M30 600L30 520C34 454 60 414 112 398C142 389 164 380 178 366L200 408L222 366C236 380 258 389 288 398C340 414 366 454 370 520L370 600Z';
+const MIRROR = 'transform="translate(400 0) scale(-1 1)"';
+
+function eye(p, cx, cy, s){
+  const X = d => (cx + d*s).toFixed(1);
+  const white = `M${X(-16)} ${cy-1}Q${X(-2)} ${cy-13} ${X(16)} ${cy-3}Q${X(10)} ${cy+11} ${X(-1)} ${cy+11}Q${X(-12)} ${cy+10} ${X(-16)} ${cy-1}Z`;
+  const id = `${p}-ec${s>0?'l':'r'}`;
+  return `<clipPath id="${id}"><path d="${white}"/></clipPath>
+  <g class="eye">
+    <path d="${white}" fill="#FFF9F3"/>
+    <g clip-path="url(#${id})">
+      <g class="look">
+        <circle cx="${cx}" cy="${cy+1}" r="9.8" fill="url(#${p}-iris)"/>
+        <circle cx="${cx}" cy="${cy+1.6}" r="4.5" fill="#120805"/>
+        <circle cx="${cx-3.2}" cy="${cy-2.6}" r="2.9" fill="#fff"/>
+        <circle cx="${cx+3.5}" cy="${cy+5}" r="1.3" fill="#fff" opacity=".85"/>
+      </g>
+      <path d="M${X(-18)} ${cy-6}Q${X(-2)} ${cy-16} ${X(18)} ${cy-7}L${X(18)} ${cy-1}Q${X(-2)} ${cy-9} ${X(-18)} ${cy+1}Z" fill="#3a1a10" opacity=".18"/>
+    </g>
+    <path d="M${X(-17)} ${cy}Q${X(-3)} ${cy-15} ${X(17)} ${cy-4}" stroke="#1A0E0A" stroke-width="3.8" fill="none" stroke-linecap="round"/>
+    <path d="M${X(-16)} ${cy-1}L${X(-22)} ${cy-5}" stroke="#1A0E0A" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M${X(-9)} ${cy+11.5}Q${X(0)} ${cy+13.5} ${X(9)} ${cy+10}" stroke="${C.line}" stroke-width="1.2" fill="none" opacity=".7" stroke-linecap="round"/>
+  </g>`;
+}
+
+function spiral(cx, cy){
+  return `M${cx} ${cy}m-1.5 0a1.5 1.5 0 1 1 3 0a3.5 3.5 0 1 1 -7 0a5.5 5.5 0 1 1 11 0a7.5 7.5 0 1 1 -15 0`;
+}
+function charSVG(p, sticker){
+  return `<defs>
+    <linearGradient id="${p}-iris" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#20100A"/><stop offset=".55" stop-color="#48281A"/><stop offset="1" stop-color="#96623F"/></linearGradient>
+    <radialGradient id="${p}-mg" cx=".5" cy=".58" r=".62"><stop offset="0" stop-color="#000"/><stop offset=".55" stop-color="#030001"/><stop offset="1" stop-color="#4C1622"/></radialGradient>
+    <clipPath id="${p}-fc"><path d="${FACE}"/></clipPath>
+    <clipPath id="${p}-lens"><rect x="143" y="171" width="54" height="44" rx="19"/><rect x="203" y="171" width="54" height="44" rx="19"/></clipPath>
+    <clipPath id="${p}-mc"><path class="mclip" d="M185 258Q200 265 215 258Q200 265 185 258Z"/></clipPath>
+    <filter id="${p}-stk" x="-10%" y="-10%" width="120%" height="120%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="8.5" result="o"/>
+      <feMorphology in="SourceAlpha" operator="dilate" radius="6" result="i"/>
+      <feComposite in="o" in2="i" operator="out" result="ring"/>
+      <feFlood flood-color="#FBEFE3"/>
+      <feComposite in2="ring" operator="in" result="line"/>
+      <feMerge><feMergeNode in="line"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g class="char"${sticker?` filter="url(#${p}-stk)"`:''}>
+    <g class="catears">
+      <path d="M122 104L128 42L174 72Z" fill="${C.hair}"/><path d="M134 94L135 58L160 76Z" fill="#E7969C"/>
+      <g ${MIRROR}><path d="M122 104L128 42L174 72Z" fill="${C.hair}"/><path d="M134 94L135 58L160 76Z" fill="#E7969C"/></g>
+    </g>
+    <path d="${BACK}" fill="${C.hair}"/>
+    <path d="M152 84C176 75 224 75 248 84" stroke="${C.hairHi}" stroke-width="5" stroke-linecap="round" fill="none" opacity=".4"/>
+    <!-- neck + chest -->
+    <path d="M179 272L179 372L200 414L221 372L221 272Z" fill="${C.skin}"/>
+    <path d="M179 272L221 272L221 320Q200 338 179 320Z" fill="${C.shade}"/>
+    <path d="M185 368Q200 396 215 368" stroke="#EFE6D8" stroke-width="1.1" fill="none"/>
+    <circle cx="200" cy="382" r="2.1" fill="#EFE6D8"/>
+    <!-- navy quarter-zip top -->
+    <path d="${BODY}" fill="${C.navy}"/>
+    <path d="M30 600L30 520C34 454 60 414 112 398C96 432 90 482 92 600Z" fill="${C.navyD}" opacity=".55"/>
+    <path d="M30 600L30 520C34 454 60 414 112 398C96 432 90 482 92 600Z" fill="${C.navyD}" opacity=".55" ${MIRROR}/>
+    <path d="M175 361L200 409L225 361" stroke="${C.navyL}" stroke-width="6" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M200 412L200 600" stroke="#8E97AE" stroke-width="1.6" stroke-dasharray="2.5 2"/>
+    <rect x="196.5" y="405" width="7" height="13" rx="2" fill="#D0D4DE"/>
+    <g class="head">
+      <ellipse cx="135" cy="198" rx="9" ry="15" fill="${C.skin}"/>
+      <ellipse cx="265" cy="198" rx="9" ry="15" fill="${C.skin}"/>
+      <path d="${FACE}" fill="${C.skin}" stroke="${C.line}" stroke-width="1.2" stroke-opacity=".55"/>
+      <g clip-path="url(#${p}-fc)">
+        <path d="M270 140C262 196 250 246 214 300L280 310L280 140Z" fill="${C.shade}" opacity=".35"/>
+        <path d="M110 92C150 136 250 136 290 92L290 70L110 70Z" fill="${C.shade}" opacity=".6"/>
+        <path d="M134 150C140 200 146 240 162 274L148 276C138 240 132 200 128 150Z" fill="${C.shade}" opacity=".45"/>
+      </g>
+      <ellipse class="blush" cx="151" cy="240" rx="14" ry="6.5" fill="${C.blush}"/>
+      <ellipse class="blush" cx="249" cy="240" rx="14" ry="6.5" fill="${C.blush}"/>
+      <path d="M145 243l4-6M151 243l4-6M157 243l4-6M239 243l4-6M245 243l4-6M251 243l4-6" stroke="#CF5E4D" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>
+      <g class="brows">
+        <path d="M150 163Q166 147 190 154Q191 157.5 188 158Q167 154 152 166Z" fill="${C.brow}"/>
+        <path d="M150 163Q166 147 190 154Q191 157.5 188 158Q167 154 152 166Z" fill="${C.brow}" ${MIRROR}/>
+      </g>
+      ${eye(p,170,192,1)}
+      ${eye(p,230,192,-1)}
+      <g class="alt happy" stroke="#1A0E0A" stroke-width="3.6" fill="none" stroke-linecap="round">
+        <path d="M157 196Q170 181 183 196"/><path d="M217 196Q230 181 243 196"/>
+      </g>
+      <g class="alt dizzy" stroke="#1A0E0A" stroke-width="2.2" fill="none" stroke-linecap="round">
+        <path class="spin" d="${spiral(170,192)}"/><path class="spin" d="${spiral(230,192)}"/>
+      </g>
+      <path class="alt sweat" d="M266 146C262 153 259 157 259 161A7 7 0 0 0 273 161C273 157 270 153 266 146Z" fill="#A9DAF2" stroke="#5E9CC0" stroke-width="1.2"/>
+      <path d="M203 211Q206 222 203 229" stroke="${C.shade}" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+      <path d="M195 233Q200 236 205 233" stroke="${C.line}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <g class="mouth">
+        <path class="mfill" fill="url(#${p}-mg)" d=""/>
+        <g clip-path="url(#${p}-mc)">
+          <rect class="teeth" fill="#FFF6EE" x="185" y="258" width="30" height="0"/>
+          <ellipse class="tongue" fill="#B9505A" cx="200" cy="262" rx="8" ry="0"/>
+        </g>
+        <path class="mline" fill="none" stroke="${C.lip}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" d=""/>
+        <path class="lowlip" d="M193 268Q200 270.5 207 268" stroke="${C.shade}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </g>
+      <g class="specs">
+      <g fill="none" stroke="${C.gold}" stroke-width="2.4">
+        <rect x="143" y="171" width="54" height="44" rx="19" fill="#fff" fill-opacity=".07"/>
+        <rect x="203" y="171" width="54" height="44" rx="19" fill="#fff" fill-opacity=".07"/>
+        <path d="M197 188Q200 183.5 203 188M143 186L133 183M257 186L267 183"/>
+      </g>
+      <path d="M150 186Q151 178 159 175.5M210 186Q211 178 219 175.5" stroke="#fff" stroke-opacity=".5" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <g clip-path="url(#${p}-lens)"><path class="glint" d="M128 160L140 160L124 232L112 232Z" fill="#fff"/></g>
+      </g>
+      <path d="${LOCK}" fill="${C.hair}"/>
+      <path d="${LOCK}" fill="${C.hair}" ${MIRROR}/>
+      <path d="M200 90L200 106" stroke="#4A2E24" stroke-width="1.6" stroke-linecap="round"/>
+      <g stroke="${C.hairHi}" stroke-linecap="round" fill="none">
+        <path d="M160 124C144 150 136 190 132 234" stroke-width="2.6" opacity=".55"/>
+        <path d="M124 256C118 296 112 336 112 380" stroke-width="2.2" opacity=".35"/>
+        <path d="M240 124C256 150 264 190 268 234" stroke-width="2.6" opacity=".45"/>
+        <path d="M276 256C282 296 288 336 288 380" stroke-width="2.2" opacity=".3"/>
+      </g>
+      <!-- arm, hand under chin, watch -->
+      <path d="M84 600C100 520 124 452 146 386L190 394C172 454 156 526 150 600Z" fill="${C.skin}" stroke="${C.line}" stroke-width="1.2" stroke-opacity=".5"/>
+      <path d="M84 600C100 520 124 452 146 386L158 390C138 452 118 526 108 600Z" fill="${C.shade}" opacity=".5"/>
+      <path d="M152 322C144 306 146 288 156 276C160 272 165 274 164 280C162 292 160 306 162 318Z" fill="${C.skin}" stroke="${C.line}" stroke-width="1.2" stroke-opacity=".6"/>
+      <path d="M146 392C138 364 140 330 152 308C160 294 174 290 186 294C198 298 206 308 205 320C204 332 196 342 188 350C184 362 186 378 190 396Z" fill="${C.skin}" stroke="${C.line}" stroke-width="1.2" stroke-opacity=".6"/>
+      <path d="M146 392C140 366 140 340 148 320L158 330C153 352 153 372 158 394Z" fill="${C.shade}" opacity=".45"/>
+      <path d="M166 300C171 312 173 326 171 340M180 297C186 309 189 321 187 336M193 302C197 310 198 318 196 328" stroke="${C.line}" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".5"/>
+      <path d="M142 397L193 405L190 421L139 413Z" fill="#2A2C33"/>
+      <circle cx="166" cy="409" r="13.5" fill="#17181D" stroke="#CBD0D9" stroke-width="3.2"/>
+      <path d="M166 409L166 401M166 409L172 412" stroke="#CBD0D9" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M158 402Q162 398 168 398" stroke="#fff" stroke-opacity=".35" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      ${sticker ? `<g class="hits" fill="#000" fill-opacity="0">
+        <rect data-hit="specs" x="140" y="168" width="120" height="50" rx="18"/>
+        <ellipse data-hit="cheek" cx="151" cy="242" rx="22" ry="16"/>
+        <ellipse data-hit="cheek" cx="249" cy="242" rx="22" ry="16"/>
+        <circle data-hit="nose" cx="201" cy="224" r="11"/>
+      </g>` : ''}
+    </g>
+  </g>`;
+}
+
+function rig(svg, p){
+  return {
+    svg,
+    looks: svg.querySelectorAll('.look'),
+    head: svg.querySelector('.head'),
+    brows: svg.querySelector('.brows'),
+    mfill: svg.querySelector('.mfill'), mline: svg.querySelector('.mline'), mclip: svg.querySelector('.mclip'),
+    teeth: svg.querySelector('.teeth'), tongue: svg.querySelector('.tongue'), lowlip: svg.querySelector('.lowlip'),
+    lx:0, ly:0, tx:0, ty:0, last:{}, mouthT:-1, state:'awake', scrollMouth:0,
+    m:{mouth:0, mouthT:0, brow:0, browT:0, tilt:0, tiltT:0, wobbleUntil:0}
+  };
+}
+function setMouth(r, t){
+  if (Math.abs(t - r.mouthT) < 0.002) return;
+  r.mouthT = t;
+  const hw = 15 + 17*t, cy = 258 - 2*t, uc = 265 - 19*t, lc = 265 + 52*t;
+  const d = `M${(200-hw).toFixed(2)} ${cy.toFixed(2)}Q200 ${uc.toFixed(2)} ${(200+hw).toFixed(2)} ${cy.toFixed(2)}Q200 ${lc.toFixed(2)} ${(200-hw).toFixed(2)} ${cy.toFixed(2)}Z`;
+  const top = (cy+uc)/2, bot = (cy+lc)/2;
+  r.mfill.setAttribute('d', d); r.mline.setAttribute('d', d); r.mclip.setAttribute('d', d);
+  r.teeth.setAttribute('x', 200-hw); r.teeth.setAttribute('width', 2*hw);
+  r.teeth.setAttribute('y', top-3); r.teeth.setAttribute('height', Math.max(0, 3+6*t));
+  r.tongue.setAttribute('cy', bot+1); r.tongue.setAttribute('rx', hw*.55); r.tongue.setAttribute('ry', t>0.02 ? 1+6*t : 0);
+  r.lowlip.setAttribute('transform', `translate(0 ${(bot-261.5+5).toFixed(2)})`);
+  r.lowlip.setAttribute('opacity', (1 - clamp(t*3,0,1)).toFixed(2));
+}
+function setBrows(r, y){
+  const k = y.toFixed(2);
+  if (r.last.brow === k) return;
+  r.last.brow = k;
+  r.brows.setAttribute('transform', `translate(0 ${k})`);
+}
+function setLook(r, x, y, tilt){
+  const k = `${x.toFixed(2)},${y.toFixed(2)},${tilt.toFixed(2)}`;
+  if (r.last.look === k) return;
+  r.last.look = k;
+  r.looks.forEach(g => g.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`));
+  r.head.setAttribute('transform', `rotate(${tilt.toFixed(2)} 200 300)`);
+}
+
+const heroSvg = document.getElementById('heroChar');
+const guideSvg = document.getElementById('guideChar');
+heroSvg.innerHTML = charSVG('h', true);
+guideSvg.innerHTML = charSVG('g', false);
+const hero = rig(heroSvg, 'h');
+const guide = rig(guideSvg, 'g');
+const heroChar = heroSvg.querySelector('.char');
+setMouth(hero, 0); setMouth(guide, 0);
+
+/* ================= ambient: lights + doodles ================= */
+(function(){
+  const lights = document.querySelector('.lights');
+  const N = 9;
+  for (let s = 0; s < 2; s++) for (let i = 1; i < N; i++){
+    const u = i/N, x = (s + u) * 50, y = (1-u)*(1-u)*8 + 2*u*(1-u)*72 + u*u*8;
+    const b = document.createElement('span');
+    b.className = 'bulb';
+    b.style.left = x + '%'; b.style.top = (y + 1) + 'px';
+    b.style.animationDelay = (-(i*0.37 + s)).toFixed(2) + 's';
+    lights.appendChild(b);
   }
-
-  // ── HOVER PORTAL ──
-  // Creates a single floating panel at body level so it overlaps everything
-  const portal = document.createElement('div');
-  portal.id = 'card-hover-portal';
-  document.body.appendChild(portal);
-
-  let hideTimer = null;
-  let activeCard = null;
-
-  function showPortal(card) {
-    clearTimeout(hideTimer);
-    activeCard = card;
-
-    const hoverSrc = card.querySelector('.card-hover');
-    if (!hoverSrc) return;
-
-    portal.innerHTML = hoverSrc.innerHTML;
-
-    const rect = card.getBoundingClientRect();
-    const panelW = 280;
-    const panelH = 380;
-    const margin = 8;
-
-    // Horizontal: default align left of card, flip if too close to right edge
-    let left = rect.left;
-    if (left + panelW > window.innerWidth - margin) {
-      left = rect.right - panelW;
+  const STAR = '<path d="M0 -10C1 -3 3 -1 10 0C3 1 1 3 0 10C-1 3 -3 1 -10 0C-3 -1 -1 -3 0 -10Z"/>';
+  const HEART = '<path d="M0 8C-7 3 -10 -2 -7 -6C-5 -8.5 -1.5 -8 0 -4.5C1.5 -8 5 -8.5 7 -6C10 -2 7 3 0 8Z"/>';
+  const BURST = '<path d="M-7 4L-10 -3M0 2L0 -8M7 4L10 -3"/>';
+  const list = [
+    [7,22,'star',24],[18,76,'heart',22],[4,78,'star',15],[26,34,'dot',5],[31,86,'star',14],
+    [90,24,'star',19],[93,62,'heart',24],[74,44,'dot',5],[82,86,'star',16],[62,30,'dot',4],
+    [38,62,'dot',4],[96,40,'dot',4],[10,40,'burst',26],[86,48,'burst',22]
+  ];
+  const box = document.getElementById('doodles');
+  list.forEach(([l,t,k,s],i)=>{
+    let el;
+    if (k === 'dot'){ el = document.createElement('span'); el.style.width = el.style.height = s+'px'; }
+    else {
+      el = document.createElement('span');
+      el.innerHTML = `<svg viewBox="-12 -12 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${k==='star'?STAR:k==='heart'?HEART:BURST}</svg>`;
     }
-    if (left < margin) left = margin;
+    el.className = 'doodle' + (k==='dot'?' dot':'') + (t <= 26 ? ' hi' : '');
+    el.style.left = l+'%'; el.style.top = t+'%';
+    el.style.animationDelay = (-i*0.53).toFixed(2)+'s';
+    box.appendChild(el);
+  });
+})();
 
-    // Vertical: show above card if not enough room below, else below
-    let top;
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const spaceAbove = rect.top;
-    if (spaceBelow >= panelH || spaceBelow >= spaceAbove) {
-      top = rect.top - 20;
-    } else {
-      top = rect.bottom - panelH + 20;
+/* ================= scroll-driven intro ================= */
+const intro = document.querySelector('.intro');
+const sub = document.getElementById('sub');
+const hint = document.getElementById('hint');
+const nameEl = document.querySelector('.name');
+const blackout = document.getElementById('blackout');
+const doodles = document.getElementById('doodles');
+const guideEl = document.getElementById('guide');
+const X0 = 0, Y0 = -80, W0 = 400, H0 = 600, MX = 200, MY = 271;
+let cur = 0, jump = false, stickerOn = true, lastVB = '';
+
+function introProgress(){
+  const r = intro.getBoundingClientRect();
+  const total = r.height - innerHeight;
+  return total > 0 ? clamp(-r.top / total, 0, 1) : 1;
+}
+function renderIntro(p){
+  const tf = ss(0.02, 0.16, p);
+  const op = (1 - tf).toFixed(3), ty = `translateY(${(-tf*28).toFixed(1)}px)`;
+  sub.style.opacity = op; hint.style.opacity = op;
+  nameEl.style.opacity = (1 - ss(0.1, 0.34, p)).toFixed(3);
+  doodles.style.opacity = (1 - ss(0.3, 0.6, p)).toFixed(3);
+  sub.style.translate = `0 ${(-tf*28).toFixed(1)}px`;
+  const open = ss(0.1, 0.4, p);
+  hero.scrollMouth = 1 - Math.pow(1 - open, 2);
+  hero.open = open;
+
+  let vb;
+  if (reduce){
+    vb = `${X0} ${Y0} ${W0} ${H0}`;
+    blackout.style.opacity = ss(0.4, 0.85, p).toFixed(3);
+  } else {
+    const z = ss(0.36, 0.93, p);
+    const s = Math.pow(0.005, z);
+    vb = `${(MX - (MX - X0)*s).toFixed(3)} ${(MY - (MY - Y0)*s).toFixed(3)} ${(W0*s).toFixed(4)} ${(H0*s).toFixed(4)}`;
+    const wantSticker = z < 0.001;
+    if (wantSticker !== stickerOn){ stickerOn = wantSticker; wantSticker ? heroChar.setAttribute('filter','url(#h-stk)') : heroChar.removeAttribute('filter'); }
+    blackout.style.opacity = ss(0.84, 0.97, p).toFixed(3);
+  }
+  if (vb !== lastVB){ heroSvg.setAttribute('viewBox', vb); lastVB = vb; }
+  guideEl.classList.toggle('on', p > 0.985);
+}
+
+/* ================= eyes follow the pointer ================= */
+let px = null, py = null, idleT = 0, idleX = 0, idleY = 0;
+addEventListener('pointermove', e => { if (e.pointerType === 'mouse'){ px = e.clientX; py = e.clientY; } }, {passive:true});
+function idleTarget(now){
+  if (now > idleT){ idleT = now + 2200 + Math.random()*3000; idleX = (Math.random()*2-1)*.8; idleY = (Math.random()*2-1)*.4; }
+}
+function steer(r, now, cx, cy, damp){
+  let tx, ty;
+  if (r.state !== 'awake'){ tx = 0; ty = .35; }
+  else if (px === null || reduce){ idleTarget(now); tx = reduce ? 0 : idleX; ty = reduce ? 0 : idleY; }
+  else { tx = clamp((px - cx) / (innerWidth*.5), -1, 1); ty = clamp((py - cy) / (innerHeight*.5), -1, 1); }
+  r.lx += (tx - r.lx) * .09; r.ly += (ty - r.ly) * .09;
+  const x = Math.round(r.lx*3.4*damp*20)/20, y = Math.round(r.ly*2.2*damp*20)/20;
+  let tilt = r.lx*2.2*damp + r.m.tilt;
+  if (now < r.m.wobbleUntil) tilt += Math.sin(now/85)*5;
+  setLook(r, x, y, Math.round(tilt*20)/20);
+}
+
+/* ================= guide speech ================= */
+const bubble = document.getElementById('bubble');
+let talkUntil = 0;
+function say(text){
+  if (bubble.textContent === text) return;
+  bubble.textContent = text;
+  bubble.classList.remove('hide');
+  talkUntil = performance.now() + (reduce ? 0 : 1300);
+  clearTimeout(say.t);
+  say.t = setTimeout(() => bubble.classList.add('hide'), innerWidth <= 760 ? 3000 : 5000);
+}
+document.getElementById('guide').addEventListener('pointerenter', () => { bubble.classList.remove('hide'); clearTimeout(say.t); say.t = setTimeout(() => bubble.classList.add('hide'), 4000); });
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) say(en.target.dataset.guide); });
+}, {rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('[data-guide]').forEach(s => io.observe(s));
+
+/* ================= main loop ================= */
+function frame(now){
+  const target = introProgress();
+  if (jump){ cur = target; jump = false; }
+  else { cur += (target - cur) * 0.2; if (Math.abs(target - cur) < 0.0004) cur = target; }
+  if (cur < 1 || target < 1) renderIntro(cur); else if (!guideEl.classList.contains('on')) renderIntro(1);
+
+  [hero, guide].forEach(r => {
+    const m = r.m;
+    m.mouth += (m.mouthT - m.mouth) * .14;
+    m.brow += (m.browT - m.brow) * .2;
+    m.tilt += (m.tiltT - m.tilt) * .06;
+  });
+  setMouth(hero, Math.max(hero.scrollMouth, hero.m.mouth));
+  setBrows(hero, -5*hero.scrollMouth + hero.m.brow);
+  if (cur < 0.4){
+    const rect = heroSvg.getBoundingClientRect();
+    steer(hero, now, rect.left + rect.width/2, rect.top + rect.height*.45, 1 - (hero.open||0));
+  }
+  if (guideEl.classList.contains('on')){
+    const g = guideSvg.getBoundingClientRect();
+    steer(guide, now, g.left + g.width/2, g.top + g.height/2, 1);
+    setMouth(guide, now < talkUntil ? 0.1 + 0.22*Math.abs(Math.sin(now/75)) : guide.m.mouth);
+    setBrows(guide, guide.m.brow);
+  }
+  sleepTick(now);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* blinking */
+(function blinkLoop(){
+  setTimeout(() => {
+    if (!reduce){
+      [hero, guide].forEach(r => {
+        if (r.state !== 'awake') return;
+        r.svg.classList.add('blink'); setTimeout(() => r.svg.classList.remove('blink'), 140);
+      });
     }
-    if (top < margin) top = margin;
+    blinkLoop();
+  }, 2300 + Math.random()*3300);
+})();
 
-    portal.style.left = left + 'px';
-    portal.style.top = top + 'px';
-    portal.style.transformOrigin = 'top left';
+/* buttons */
+document.getElementById('skipBtn').addEventListener('click', () => {
+  jump = true;
+  document.getElementById('inside').scrollIntoView({behavior:'auto', block:'start'});
+});
+document.getElementById('guideBtn').addEventListener('click', () => {
+  window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+});
 
-    // Restore any links inside portal
-    const links = hoverSrc.querySelectorAll('a');
-    const portalLinks = portal.querySelectorAll('a');
-    portalLinks.forEach((pl, i) => {
-      if (links[i]) {
-        pl.href = links[i].href;
-        pl.target = links[i].target;
+/* ================= moods & interactions ================= */
+const heroActive = () => cur < 0.08;
+const guideOn = () => guideEl.classList.contains('on');
+const pick = a => a[Math.floor(Math.random()*a.length)];
+function pop(text, x, y, cls){
+  const el = document.createElement('div');
+  el.className = 'pop' + (cls ? ' ' + cls : '');
+  el.textContent = text;
+  el.style.left = x + 'px'; el.style.top = y + 'px';
+  el.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
+  setTimeout(() => el.remove(), 3200);
+  return el;
+}
+function toScreen(svg, x, y){
+  const m = svg.getScreenCTM(); if (!m) return [innerWidth/2, innerHeight/2];
+  const pt = svg.createSVGPoint(); pt.x = x; pt.y = y;
+  const q = pt.matrixTransform(m); return [q.x, q.y];
+}
+function flash(r, cls, ms){
+  r.svg.classList.add(cls);
+  clearTimeout(r['t_' + cls]);
+  r['t_' + cls] = setTimeout(() => r.svg.classList.remove(cls), ms);
+}
+const eyes = (r, v) => r.svg.style.setProperty('--eye-s', v);
+const blush = (r, v) => r.svg.style.setProperty('--blush', v);
+
+/* sleepy mode: idle for 10s on the intro and she dozes off */
+let lastActive = performance.now(), zTimer = null;
+function activity(){ lastActive = performance.now(); if (hero.state !== 'awake') wake(); }
+['pointermove','pointerdown','keydown','wheel','touchstart','scroll'].forEach(ev => addEventListener(ev, activity, {passive:true}));
+function sleepTick(now){
+  if (hero.state === 'awake' && heroActive() && now - lastActive > 10000 && document.visibilityState === 'visible') yawn();
+}
+function yawn(){
+  hero.state = 'yawn';
+  heroSvg.classList.add('slow');
+  hero.m.mouthT = .5; hero.m.browT = -3; hero.m.tiltT = -2; eyes(hero, .3);
+  hero.tYawn = setTimeout(() => {
+    if (hero.state !== 'yawn') return;
+    hero.state = 'sleep';
+    hero.m.mouthT = 0; hero.m.browT = 1.5; hero.m.tiltT = 5; eyes(hero, .1);
+    const spawn = () => {
+      const [x, y] = toScreen(heroSvg, 300, 116);
+      pop('z', x + Math.random()*12 - 6, y, 'z').style.fontSize = (1 + Math.random()*.8).toFixed(2) + 'rem';
+    };
+    spawn(); zTimer = setInterval(spawn, 1100);
+  }, 1500);
+}
+function wake(){
+  const was = hero.state;
+  hero.state = 'awake';
+  clearTimeout(hero.tYawn); clearInterval(zTimer);
+  heroSvg.classList.remove('slow');
+  hero.m.mouthT = 0; hero.m.tiltT = 0;
+  if (was === 'sleep' && heroActive()){
+    eyes(hero, 1.22); hero.m.browT = -5;
+    const [x, y] = toScreen(heroSvg, 302, 128); pop('!', x, y);
+    setTimeout(() => { eyes(hero, 1); hero.m.browT = 0; }, 450);
+  } else { eyes(hero, 1); hero.m.browT = 0; }
+}
+
+/* poke reactions on the big character */
+function pushSpecs(r){
+  const now = performance.now();
+  if (now < (r.specsAt || 0)) return;
+  r.specsAt = now + 1400;
+  flash(r, 'push', 700);
+}
+heroSvg.addEventListener('pointerdown', e => {
+  const hit = e.target.closest && e.target.closest('[data-hit]');
+  if (!hit || !heroActive()) return;
+  activity();
+  const k = hit.dataset.hit;
+  clearTimeout(hero.tPoke);
+  if (k === 'cheek'){
+    blush(hero, .85); eyes(hero, .5); hero.m.mouthT = .06;
+    pop(pick(['hey!', 'hehe', 'eep!']), e.clientX, e.clientY - 10);
+    hero.tPoke = setTimeout(() => { blush(hero, .32); eyes(hero, 1); hero.m.mouthT = 0; }, 1100);
+  } else if (k === 'nose'){
+    eyes(hero, .08); hero.m.mouthT = .16; hero.m.browT = 2;
+    pop('boop', e.clientX, e.clientY - 10);
+    hero.tPoke = setTimeout(() => { eyes(hero, 1); hero.m.mouthT = 0; hero.m.browT = 0; }, 650);
+  } else if (k === 'specs'){
+    pushSpecs(hero);
+  }
+});
+heroSvg.addEventListener('pointerover', e => {
+  if (e.pointerType !== 'mouse' || !heroActive()) return;
+  if (e.target.closest && e.target.closest('[data-hit="specs"]')) pushSpecs(hero);
+});
+
+/* she pouts when you reach for "skip intro" */
+const skipBtn = document.getElementById('skipBtn');
+skipBtn.addEventListener('pointerenter', () => {
+  if (!heroActive()) return;
+  activity();
+  hero.m.browT = 2.5; hero.m.mouthT = .07; blush(hero, .5);
+  const now = performance.now();
+  if (now < (skipBtn.at || 0)) return;
+  skipBtn.at = now + 2500;
+  const r = skipBtn.getBoundingClientRect();
+  pop('aw, skipping?', r.left + r.width/2 - 30, r.bottom + 34);
+});
+skipBtn.addEventListener('pointerleave', () => { hero.m.browT = 0; hero.m.mouthT = 0; blush(hero, .32); });
+
+/* the corner guide reacts to the page */
+function guideMood(kind){
+  if (!guideOn()) return;
+  if (kind === 'worried'){
+    flash(guide, 'worried', 1700); guide.m.browT = -3; guide.m.mouthT = .12;
+    say('uh oh, an error…');
+    setTimeout(() => { guide.m.browT = 0; guide.m.mouthT = 0; }, 1700);
+  } else if (kind === 'happy'){
+    flash(guide, 'happy', 2400); guide.m.mouthT = .3;
+    say('it shipped!');
+    const f = document.getElementById('guideBtn');
+    f.classList.remove('hop'); void f.offsetWidth; f.classList.add('hop');
+    setTimeout(() => { guide.m.mouthT = 0; }, 2400);
+  }
+}
+document.querySelectorAll('[data-say]').forEach(el => {
+  const f = () => { if (guideOn()) say(el.dataset.say); };
+  el.addEventListener('pointerenter', f);
+  el.addEventListener('focusin', f);
+});
+
+/* easter egg: shake the cursor fast and she gets dizzy */
+let shakeX = null, shakeDir = 0, dizzyAt = 0;
+const flips = [];
+addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse') return;
+  const now = performance.now();
+  if (shakeX !== null){
+    const dx = e.clientX - shakeX;
+    if (Math.abs(dx) > 14){ const d = Math.sign(dx); if (shakeDir && d !== shakeDir) flips.push(now); shakeDir = d; }
+  }
+  shakeX = e.clientX;
+  while (flips.length && now - flips[0] > 900) flips.shift();
+  if (flips.length >= 5 && now > dizzyAt){ flips.length = 0; dizzyAt = now + 3500; dizzy(); }
+}, {passive:true});
+function dizzy(){
+  const r = heroActive() ? hero : (guideOn() ? guide : null);
+  if (!r) return;
+  flash(r, 'dizzy', 1900);
+  if (!reduce) r.m.wobbleUntil = performance.now() + 1900;
+  r.m.mouthT = .1;
+  setTimeout(() => { r.m.mouthT = 0; }, 1900);
+  if (r === hero){ const [x, y] = toScreen(heroSvg, 302, 124); pop('whoa', x, y); }
+  else say('whoa… dizzy');
+}
+
+/* easter egg: type c-a-t for cat ears */
+let keyBuf = '';
+function toggleCat(){
+  const on = !heroSvg.classList.contains('cat');
+  heroSvg.classList.toggle('cat', on);
+  guideSvg.classList.toggle('cat', on);
+  if (heroActive()){ const [x, y] = toScreen(heroSvg, 200, 30); pop(on ? 'meow' : 'ears off', x, y); }
+  else if (guideOn()) say(on ? 'meow!' : 'ears off');
+}
+addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
+  if (e.target.closest && e.target.closest('input,textarea,[contenteditable]')) return;
+  keyBuf = (keyBuf + e.key.toLowerCase()).slice(-3);
+  if (keyBuf === 'cat'){ keyBuf = ''; toggleCat(); }
+});
+document.getElementById('catBtn').addEventListener('click', toggleCat);
+
+/* ================= terminal boot ================= */
+(function(){
+  const term = document.getElementById('term');
+  const parts = [...term.querySelectorAll('.typed')];
+  const rows = [...term.children];
+  const texts = parts.map(p => p.textContent);
+  const r0 = term.getBoundingClientRect();
+  if (reduce || r0.top < innerHeight) return;
+  parts.forEach(p => p.textContent = '');
+  rows.forEach((row, i) => { if (i > 0) row.style.visibility = 'hidden'; });
+  let started = false;
+  const tio = new IntersectionObserver(es => {
+    if (started || !es.some(e => e.isIntersecting)) return;
+    started = true; tio.disconnect();
+    let i = 0;
+    (function next(){
+      if (i >= parts.length) return;
+      const el = parts[i], txt = texts[i], row = el.closest('.cmd, .kv');
+      row.style.visibility = 'visible';
+      let j = 0;
+      (function type(){
+        el.textContent = txt.slice(0, ++j);
+        if (j < txt.length) setTimeout(type, i === 0 ? 38 : 11);
+        else { i++; setTimeout(next, i === 1 ? 320 : 90); }
+      })();
+    })();
+  }, {threshold:.35});
+  tio.observe(term);
+})();
+
+/* ================= agent run ================= */
+(function(){
+  const btn = document.getElementById('runBtn');
+  const log = document.getElementById('log');
+  const node = id => document.querySelector(`.node[data-id="${id}"]`);
+  const steps = [
+    ['read_jira','run','read_jira      ','SCRUM-1 · "Build a login page in Flask"'], ['read_jira','done'],
+    ['generate_code','run','generate_code  ','LLaMA 3.3-70b writes the Flask code'], ['generate_code','done'],
+    ['execute_code','run','execute_code   ','compile check found a SyntaxError'], ['execute_code','retry'],
+    ['self_correct','run','self_correct   ','code + error sent back to the model (round 1)'], ['self_correct','done'],
+    ['execute_code','run','execute_code   ','compile check passed'], ['execute_code','done'],
+    ['push_github','run','push_github    ','branch created, commit pushed, pull request opened'], ['push_github','done'],
+    ['close_jira','run','close_jira     ','SCRUM-1 closed, PR link added as a comment'], ['close_jira','done']
+  ];
+  btn.addEventListener('click', () => {
+    btn.disabled = true;
+    document.querySelectorAll('.node').forEach(n => n.removeAttribute('data-state'));
+    log.textContent = '';
+    let i = 0;
+    (function step(){
+      if (i >= steps.length){
+        guideMood('happy');
+        const end = document.createElement('div');
+        end.innerHTML = '<b>END            </b>6 nodes, 1 self-correction round';
+        log.appendChild(end);
+        btn.disabled = false; btn.textContent = 'Run again';
+        return;
       }
-    });
-
-    requestAnimationFrame(() => {
-      portal.classList.add('visible');
-    });
-  }
-
-  function hidePortal() {
-    hideTimer = setTimeout(() => {
-      portal.classList.remove('visible');
-      activeCard = null;
-    }, 120);
-  }
-
-  // Attach events to all cards
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mouseenter', () => showPortal(card));
-    card.addEventListener('mouseleave', hidePortal);
+      const [id, state, tag, msg] = steps[i++];
+      node(id).setAttribute('data-state', state);
+      if (state === 'retry') guideMood('worried');
+      if (tag){
+        const line = document.createElement('div');
+        const b = document.createElement('b'); b.textContent = tag;
+        line.append(b, msg);
+        log.appendChild(line);
+      }
+      setTimeout(step, state === 'run' ? 750 : 260);
+    })();
   });
-
-  portal.addEventListener('mouseenter', () => clearTimeout(hideTimer));
-  portal.addEventListener('mouseleave', hidePortal);
+})();
+})();
 </script>
 
 </body>
