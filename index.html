@@ -22,6 +22,9 @@
 <meta name="twitter:title" content="Apeksha Gupta">
 <meta name="twitter:description" content="Apeksha Gupta is a Software Developer at Amdocs in Gurugram who builds agentic AI with LangGraph and RAG.">
 <meta name="twitter:image" content="https://apekshag-28.github.io/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Apeksha Gupta","url":"https://apekshag-28.github.io/","email":"mailto:apeksha3128@gmail.com","jobTitle":"Software Developer","worksFor":{"@type":"Organization","name":"Amdocs"},"address":{"@type":"PostalAddress","addressLocality":"Gurugram","addressCountry":"IN"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Chandigarh University"},"sameAs":["https://github.com/apekshaG-28","https://www.linkedin.com/in/apeksha-gupta-a68a62230/","https://youtube.com/@CatGPT-4o","https://instagram.com/crimsonxskies"]}
+</script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -144,6 +147,23 @@ h2{font-family:var(--f-display);font-weight:400;font-size:clamp(1.6rem,3.4vw,2.5
 .chip.link:hover{background:rgba(255,194,102,.1)}
 .chip.wip{color:var(--crimson);border-color:rgba(240,89,106,.45)}
 .chip.soon{color:var(--ink-dim);border-color:#3a3331}
+
+.cv{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:clamp(28px,5vw,64px)}
+.job h3{font-family:var(--f-display);font-weight:400;font-size:clamp(1.3rem,2.4vw,1.8rem);margin:0;line-height:1.15}
+.job .place{display:block;margin-top:.35rem;font:.78rem var(--f-mono);color:var(--ink-dim);letter-spacing:.03em}
+.roles{list-style:none;margin:22px 0 0;padding:0 0 0 18px;border-left:1px solid var(--rule);display:grid;gap:14px}
+.roles li{position:relative;display:grid;gap:2px}
+.roles li::before{content:"";position:absolute;left:-23px;top:.55em;width:9px;height:9px;border-radius:50%;background:var(--void);border:1px solid #6a625d}
+.roles li:first-child::before{background:var(--amber);border-color:var(--amber)}
+.roles .when{font:.72rem var(--f-mono);color:var(--ink-dim);letter-spacing:.04em}
+.roles .what{font-weight:600}
+.bullets{margin:22px 0 0;padding-left:1.1rem;display:grid;gap:.45rem;max-width:52ch}
+.bullets li{color:var(--ink)}
+.bullets li::marker{color:var(--amber)}
+.side{display:grid;gap:22px;align-content:start;border-top:1px solid var(--rule);padding-top:16px}
+.side p{margin:.35rem 0 0}
+.side .dim{color:var(--ink-dim)}
+@media (max-width:760px){.cv{grid-template-columns:1fr}}
 
 .outro .beyond{font-size:clamp(1.05rem,1.8vw,1.25rem);max-width:46ch;margin:.6rem 0 0;color:var(--ink)}
 .outro .beyond a{color:var(--amber)}
@@ -315,6 +335,33 @@ svg.cat .catears{opacity:1;transform:none}
         <div class="row" data-say="keeps my uploads on a streak"><span class="nm">CatGPT-4o Tracker</span><span class="ds">Content tracker for my YouTube Shorts channel, with upload streaks, monthly counts and category filters.</span><span class="chip soon">private build</span></div>
         <div class="row" data-say="still cooking, stay tuned"><span class="nm">crimsonxskies</span><span class="ds">A website with its own backend, built with Claude Code.</span><span class="chip wip">in progress</span></div>
         <div class="row" data-say="AI news, in shorts"><span class="nm">CatGPT-4o</span><span class="ds">Faceless YouTube Shorts on AI tools, news and comparisons.</span><a class="chip link" href="https://youtube.com/@CatGPT-4o" target="_blank" rel="noopener">channel</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="void" id="experience" data-guide="two years in, still building">
+    <div class="wrap">
+      <div class="section-head"><div><span class="eyebrow">Experience</span><h2>Where I've been building</h2></div></div>
+      <div class="cv">
+        <div class="job">
+          <h3>Amdocs</h3>
+          <span class="place">Gurugram · August 2024 – now</span>
+          <ol class="roles">
+            <li><span class="when">Jul 2026 – now</span><span class="what">Software Developer</span></li>
+            <li><span class="when">Aug 2024 – Jul 2026</span><span class="what">Software Engineering Associate</span></li>
+          </ol>
+          <ul class="bullets">
+            <li>Maintained mainframe systems.</li>
+            <li>Assessed a mainframe-to-AWS migration.</li>
+            <li>Worked on a Java-to-AWS mid-range migration.</li>
+            <li>Wrote Python scripts that automate deployment workflows.</li>
+          </ul>
+        </div>
+        <aside class="side">
+          <div><span class="eyebrow">Certification</span><p>AWS Certified Cloud Practitioner</p></div>
+          <div><span class="eyebrow">Education</span><p>B.E. Computer Science, Big Data Analytics<br><span class="dim">Chandigarh University · 2020–2024</span></p></div>
+          <div><span class="eyebrow">Toolchain</span><p class="dim">Python · LangChain · LangGraph · FAISS · HuggingFace · Groq · AWS · Docker</p></div>
+        </aside>
       </div>
     </div>
   </section>
